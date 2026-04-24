@@ -15,3 +15,5 @@ This repository is being developed as a phase-driven engineering project. The cu
 - `README.md` — project entry point
 - `docs/` — principal documents added progressively by phase
 - `images/system/` — system-context and architecture figures
+
+For a structured navigation overview of the current repository documentation, see [`docs/documentation_overview.md`](docs/documentation_overview.md).
