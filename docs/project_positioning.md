@@ -1,8 +1,8 @@
 # Project Positioning
 
 > **Status (Phase 1 – Positioning Baseline):**  
-> This document defines the project-level positioning baseline for the 30 kW-class water-cooled PMSM drive/converter platform.  
-> Its scope is limited to project identity, physical core, broader system context, present validation arrangement, and demonstrator boundary.  
+> This document defines the project-level positioning baseline for the 30 kW-class,  water-cooled PMSM drive/converter platform.
+> Its scope is limited to project identity, physical core, hardware basis and build ownership, broader system context, present validation arrangement, and demonstrator boundary.  
 > Detailed design-basis reasoning, hardware-platform baselining, bring-up/debug evidence, and representative validation artefacts are deferred to subsequent phases.
 
 ---
@@ -15,6 +15,7 @@ Its purpose is to establish a stable project-level reference for:
 
 - how the project is positioned at engineering level
 - what its physical core is
+- how hardware basis and build ownership are framed at positioning level
 - how broader system context is retained
 - how the present validation arrangement should be interpreted
 - what project boundary should be preserved as subsequent artefacts are introduced
@@ -43,7 +44,21 @@ Accordingly, it is the **only physical mainline** within the project baseline.
 
 ---
 
-## 4. Broader System Context
+## 4. Hardware Basis and Build Ownership
+
+The physical platform used in this repository is the author’s own converter hardware platform, developed through an end-to-end design-and-build process.
+
+At positioning level, the author’s build ownership covers both platform design and hands-on implementation.
+
+On the design side, it covers mechanical enclosure and cooling design; power-stage electrical design, including converter-level parameter definition and key component selection; and control and gate-drive electronics, with EMI-aware layout and integration considerations applied across the platform.
+
+On the implementation side, it covers PCB assembly, soldering, board-level debugging, mechanical assembly, wiring, system integration, power-stage bring-up, functional checks, and machine-side integration testing.
+
+This statement establishes the hardware basis and build ownership at positioning level only. Detailed hardware-platform evidence, design-basis rationale, build records, bring-up evidence, and validation artefacts are deferred to later phases.
+
+---
+
+## 5. Broader System Context
 
 Although the physical core is a machine-side converter demonstrator, it is positioned within a **broader back-to-back system context**.
 
@@ -58,7 +73,7 @@ Source-side or grid-side context is retained at **system-context level only** an
 
 ---
 
-## 5. Validation Arrangement
+## 6. Validation Arrangement
 
 The project’s validation arrangement is based on a **machine-side converter demonstrator** in which the upstream side is represented by an **external DC source**.
 
@@ -68,7 +83,7 @@ Accordingly, the project is not positioned as a fully implemented or fully valid
 
 ---
 
-## 6. Demonstrator Boundary
+## 7. Demonstrator Boundary
 
 The project should be read as an **engineering demonstrator** whose physical core is a **machine-side converter demonstrator** within a broader back-to-back system context.
 
@@ -81,7 +96,7 @@ Later bring-up, debug, and validation artefacts belong to subsequent project pha
 
 ---
 
-## 7. Relevance and Engineering Context
+## 8. Relevance and Engineering Context
 
 At engineering level, the demonstrator is relevant to **PMSM drive development** in which a **machine-side converter demonstrator** provides the primary physical reference for power-conversion, control-integration, and validation-oriented engineering work, while broader back-to-back system context is retained for system interpretation.
 
@@ -91,12 +106,12 @@ Accordingly, the demonstrator may inform adjacent engineering contexts that invo
 
 ---
 
-## 8. Open Points and Deferred Development
+## 9. Open Points and Deferred Development
 
 The following topics remain intentionally deferred beyond this positioning baseline:
 
 - broader system-context elaboration beyond project-level positioning
-- hardware-platform evidence, ownership evidence, and detailed platform composition
+- hardware-platform evidence, build-ownership evidence, and detailed platform composition
 - design-basis reasoning and subsystem-level baselines
 - bring-up, debug, and representative validation evidence
 - PC-side and MATLAB-based support-chain artefacts and evidence
@@ -105,10 +120,10 @@ These topics are introduced progressively as substantive engineering content bec
 
 ---
 
-## 9. Summary
+## 10. Summary
 
 This document establishes the project-level positioning baseline for a **30 kW-class, water-cooled PMSM drive/converter platform** developed as an **engineering demonstrator**.
 
-Within this baseline, the project’s physical core is defined as a **machine-side converter demonstrator**, while broader back-to-back system context is retained to clarify system role, interface boundary, and the interpretation of later validation artefacts. The project’s validation arrangement is based on this machine-side demonstrator with the upstream side represented by an **external DC source**, without implying full dual-side hardware closure.
+Within this baseline, the project’s physical core is defined as a **machine-side converter demonstrator**, while broader back-to-back system context is retained to clarify system role, interface boundary, and the interpretation of later validation artefacts. The physical platform is also framed as the author’s own converter hardware platform, with detailed hardware-platform and build-ownership evidence deferred to later phases. The project’s validation arrangement is based on this machine-side demonstrator with the upstream side represented by an **external DC source**, without implying full dual-side hardware closure.
 
 Accordingly, the project is positioned around a **single physical mainline** at machine-side level, rather than as a full hardware implementation of the broader back-to-back system or as a product-qualified or deployment-ready hardware platform. More detailed system-context development, hardware-platform evidence, design-basis reasoning, and bring-up/debug/validation artefacts are intentionally deferred to subsequent phases as substantive engineering content becomes available.
