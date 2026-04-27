@@ -9,6 +9,8 @@
 
 ## 1. System-Context Overview
 
+This document expands the system-context interpretation introduced at project-positioning level in [`project_positioning.md`](project_positioning.md).
+
 ![System context overview](../images/system/system_context_overview.png)
 
 **Figure 1.** System-context overview placing the machine-side converter demonstrator within the broader back-to-back system context. In the present validation arrangement, the upstream source-side / grid-side function is represented by an external DC source. The current machine-side validation focus remains limited to the machine-side converter demonstrator and the representative PMSM, while the mechanical-load block is shown only as the shaft-side boundary within the broader system context.
@@ -51,21 +53,19 @@ Accordingly, the repository is not positioned as a full dual-side hardware closu
 
 ---
 
-## 5. External DC Source Substitution
+## 5. External DC Source Representation
 
-Within the present validation arrangement, the upstream side is represented by an external DC source.
+Within the present validation arrangement, the upstream side is represented at the DC bus interface by an external DC source.
 
-At system-context level, the external DC source provides upstream representation at the DC bus interface. It allows the machine-side converter demonstrator to be read within a broader back-to-back system context while keeping the physical mainline at machine-side level.
+At system-context level, this external DC source provides an upstream representation for the present machine-side demonstrator. It allows the demonstrator to be read within the broader back-to-back system context without establishing a physically implemented source-side / grid-side stage.
 
-This substitution is appropriate at the present repository stage because it supports machine-side physical implementation and later validation-oriented work without requiring full dual-side hardware build-out at the same stage.
-
-It does not establish source-side / grid-side hardware closure, nor should it be read as evidence that a second physical mainline has been implemented or validated.
+This arrangement supports machine-side physical implementation and later representative validation work while preserving the current physical mainline at machine-side level.
 
 ---
 
 ## 6. Rationale for the Machine-Side Focus
 
-At the present repository stage, the project focuses on machine-side in order to preserve demonstrator legitimacy and implementation depth rather than distribute limited physical implementation effort across multiple partially developed hardware lines.
+At the present repository stage, the project focuses on the machine-side converter demonstrator because this is where the current physical platform, implementation depth, and later representative validation evidence can be organised most coherently.
 
 Retaining broader system context does not indicate an absence of system understanding. Instead, it preserves the engineering reading needed to interpret the demonstrator within the broader converter chain and its interface role.
 
@@ -75,7 +75,7 @@ PC-side tools and MATLAB-based tools may later support bring-up, observability, 
 
 ## 7. Reading Boundary at This Stage
 
-At this stage, the project should be read as a machine-side converter engineering demonstrator within a broader back-to-back system context.
+At this stage, the project should be read as a machine-side converter demonstrator within a broader back-to-back system context.
 
 It is therefore not positioned as an isolated standalone DC-AC converter project without broader system context, nor as a fully implemented dual-side hardware platform. The retained broader system view provides system-level interpretation, while the present physical mainline provides implementation depth.
 
