@@ -108,7 +108,7 @@ Accordingly, the demonstrator may inform adjacent engineering contexts that invo
 
 ---
 
-## 9. Open Points and Deferred Development
+## 9. Deferred Later-Phase Development
 
 The following topics remain intentionally deferred beyond this positioning baseline:
 

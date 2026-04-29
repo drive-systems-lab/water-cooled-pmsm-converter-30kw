@@ -1,7 +1,7 @@
 # System Context
 
 > **Status (Phase 1 – System-Context Baseline):**  
-> This document defines the system-context baseline for the 30 kW-class water-cooled PMSM drive/converter platform.  
+> This document defines the system-context baseline for the 30 kW-class, water-cooled PMSM drive/converter platform.  
 > Its scope is limited to broader back-to-back system reading, the role of the machine-side converter demonstrator, the present validation arrangement, and demonstrator boundary.  
 > Detailed design-basis reasoning, hardware-platform baselining, control architecture, bring-up/debug evidence, and representative validation artefacts are deferred to subsequent phases.
 
