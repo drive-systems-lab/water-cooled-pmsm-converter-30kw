@@ -6,9 +6,10 @@ This repository presents a 30 kW-class, water-cooled PMSM drive/converter platfo
 
 Broader back-to-back system context is retained to define system role, interface boundary, and validation meaning. In the present validation arrangement, the upstream side is represented at the DC bus interface by an external DC source rather than by a physically implemented source-side / grid-side stage.
 
-> **Phase snapshot: Phase 1 in progress — positioning, boundary, and repository startup**
+> **Phase snapshot: Phase 1 complete (positioning, boundary, and repository-startup baseline established)**
+>
+> **Phase 1** established project positioning, scope and boundary, the initial repository-facing startup structure, the initial documentation-role map, and the initial evidence route for subsequent design-basis and hardware-platform work.
 
-This repository is being developed as a phase-driven engineering project. The current Phase 1 work focuses on establishing project positioning, fixing scope and boundary, creating the initial repository-facing startup structure, and defining the initial evidence route.
 
 ## Repository Structure
 
