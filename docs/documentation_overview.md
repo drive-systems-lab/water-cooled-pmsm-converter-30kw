@@ -17,11 +17,18 @@ Project identity, boundary definition, system-context framing, and repository-st
 
 ---
 
+## Design-Basis Baseline (Phase 2)
+
+Design-input framing, operating-boundary framing, controlled-assumption structure, and deferred-topic boundary.
+
+- [`design_basis.md`](design_basis.md) — design-basis baseline
+
+---
+
 ## Later Principal Document Roles
 
 The later principal document-role map is defined around the following roles:
 
-- design-basis reasoning and operating-boundary baseline
 - hardware-platform baseline and build-ownership evidence
 - control architecture and interface boundary
 - bring-up flow and debug evidence
