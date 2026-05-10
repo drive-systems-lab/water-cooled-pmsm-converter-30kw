@@ -2,8 +2,8 @@
 
 > **Status (Phase 2 – Design-Basis Baseline in Progress):**  
 > This document establishes the Phase 2 design-basis baseline for the machine-side converter demonstrator of the 30 kW-class, water-cooled PMSM drive/converter platform.  
-> Its current scope covers design-basis role definition, design-input framing, an initial operating-boundary draft, controlled-assumption structure, and deferred-topic framing.  
-> Detailed quantitative assumptions, control-architecture and interface-boundary definition, selected hardware-platform evidence, and build-ownership traceability are introduced progressively through subsequent Phase 2 work.
+> Its current scope covers design-basis role definition, design-input framing, an initial operating-boundary draft, initial power / voltage / current controlled assumptions, and deferred-topic framing.  
+> Further quantitative detail where appropriate, representative machine-side boundary definition, supporting design rationale, control-architecture and interface-boundary definition, selected hardware-platform evidence, and build-ownership traceability are introduced progressively through subsequent Phase 2 work.
 
 ---
 
@@ -18,7 +18,7 @@ At this stage, the document is intended to:
 - define the role of the design-basis layer within the repository
 - frame the initial design inputs for the machine-side converter demonstrator
 - frame the operating-boundary categories at design-basis level
-- set out the controlled-assumption structure to be developed during Phase 2
+- establish initial controlled assumptions for power / voltage / current and DC-side interpretation at design-basis level
 - prepare the design-basis layer for later hardware-platform evidence and build-ownership traceability
 - preserve scope discipline as later engineering content is introduced
 
@@ -67,7 +67,7 @@ The boundary areas below are derived from the design-input framing in Section 2 
 | Demonstrator scale | The platform is read as a 30 kW-class, water-cooled demonstrator-level PMSM drive/converter platform | Product-certified rating, complete performance envelope, or deployment-ready hardware |
 | Physical focus within system context | The operating interpretation remains centred on the machine-side converter demonstrator, while the broader back-to-back system context is retained for system role, interface boundary, and validation interpretation | Full dual-side back-to-back hardware closure or a parallel physical mainline |
 | Upstream and DC-side condition | The source-side / grid-side function is retained at system-context level, while the present upstream condition is represented by an external DC source at the DC bus interface. The DC input / DC bus interface connects this upstream representation to the machine-side converter, with the DC-link providing converter-side energy buffering | Source-side / grid-side hardware implementation or validation, dedicated pre-charge circuit, final DC-link component values, or validated DC-link operating behaviour |
-| Current and thermal framing | Current-level basis is framed around the demonstrator power class, DC-link / machine-side voltage context, and representative PMSM interface context, while water cooling is treated as a demonstrator-level platform approach | Final current rating, overload envelope, validated operating range, full thermal qualification, or product cooling validation |
+| Current and thermal framing | Current-level basis is framed around the demonstrator power class, DC-link / machine-side voltage context, and representative PMSM interface context, while water cooling is treated as a demonstrator-level platform approach | Final current rating, overload capability, validated operating range, full thermal qualification, or product cooling validation |
 | Machine-side object and shaft-side context | The representative PMSM defines the immediate machine-side operating object, while the shaft-side context is retained as the downstream operating context for interpreting later machine-side evidence | Universal PMSM compatibility, final load-machine arrangement, mechanical-load validation package, or load-side test-bench validation |
 | Control-interface scope | Controller-to-power-stage command path, sensing / feedback paths, and protection-related interfaces are treated at architecture-boundary level during Phase 2 | Detailed control implementation, released firmware package, controller validation, or commissioning closure |
 | Validation interpretation | Later evidence is intended to remain representative and machine-side focused | Validation results, product qualification, full operating-envelope validation, or full dual-side system validation |
@@ -78,34 +78,63 @@ This operating-boundary draft is intended to support later Phase 2 controlled as
 
 ## 4. Controlled Assumptions
 
-Phase 2 will progressively introduce controlled assumptions and supporting rationale so that the demonstrator’s design basis becomes explicit, traceable, and consistent with the project boundary.
+The operating boundary in Section 3 is converted here into initial design-basis assumptions for Phase 2 reasoning.
 
-These controlled assumptions and supporting rationale will cover:
+These assumptions make the demonstrator’s power, voltage, current, and DC-side interpretation explicit enough to support subsequent Phase 2 design-basis reasoning and later hardware-platform interpretation. They should be read as demonstrator-level engineering assumptions rather than product specifications, certified ratings, or complete validation limits.
 
-- power / voltage / current basis
-- DC input / DC bus / DC-link relationship
-- representative machine-side boundary
-- switching and control-frequency rationale
-- sensing and feedback strategy
-- demonstrator-level protection rationale
-- cooling and thermal-integration rationale
-- EMI-aware design considerations
-- control-architecture and interface-boundary clarification
+### 4.1 Assumption Categories
 
-The role of these assumptions and rationale is to support engineering judgement and subsequent hardware-platform interpretation. They are working assumptions for Phase 2 reasoning, not final design or validation claims.
+| Assumption category | Meaning in this document | Boundary |
+| --- | --- | --- |
+| Fixed project-level basis | The Phase 1 project-level reading is retained: a 30 kW-class, water-cooled machine-side converter demonstrator within a broader back-to-back system context, with the upstream side represented at the DC bus interface by an external DC source | Does not establish product qualification, deployment readiness, or full dual-side hardware closure |
+| Representative design-basis reference | A representative value, range, or engineering reference condition used to support Phase 2 design-basis reasoning | Does not establish final component values, product-level specifications, or a fully validated operating range |
+| Deferred detailed closure | Detailed component values, final ratings, validation results, or operating-envelope closure intentionally left for later Phase 2 or Phase 3 work | Not established by the current design-basis draft; later closure requires appropriate supporting rationale, hardware-platform evidence, or validation artefacts |
+
+### 4.2 Power / Voltage / Current Basis
+
+| Design-basis item | Controlled assumption | Engineering role | Boundary |
+| --- | --- | --- | --- |
+| Power class | The platform is treated as a 30 kW-class machine-side PMSM drive/converter demonstrator | Defines the scale for converter-level design-basis reasoning | Does not establish a product-certified continuous rating |
+| DC-side voltage basis | The DC-side voltage basis is framed at the DC input / DC bus interface, with the upstream side represented by an external DC source in the present validation arrangement | Provides the DC-side voltage reference for subsequent Phase 2 design-basis reasoning | Does not establish a physically implemented source-side / grid-side stage or a fully validated DC-side operating range |
+| DC-link interpretation | The DC-link is treated as the converter-side energy-buffering layer between the external DC source representation and the machine-side inverter stage | Clarifies how the DC input / DC bus interface is read within the present demonstrator | Does not establish final DC-link component values or validated DC-link operating behaviour |
+| Machine-side voltage basis | The machine-side voltage basis is interpreted at the representative PMSM interface | Supports the machine-side converter reading without redefining the project as a universal PMSM drive platform | Does not claim universal PMSM compatibility or complete operating-envelope coverage |
+| Current-level basis | Current-level reasoning is framed around the 30 kW-class demonstrator scale, the DC-side voltage context, the representative PMSM interface, and the water-cooled platform reading | Provides the current-side reference for subsequent Phase 2 design-basis reasoning | Does not establish final current rating, overload capability, validated operating range, or product-level thermal validation |
+
+### 4.3 DC Input / DC Bus / DC-Link Relationship
+
+Within the present validation arrangement, the upstream side is represented by an external DC source at the DC bus interface. The DC input / DC bus interface should therefore be read as the DC-side reference point between the upstream representation and the physically realised machine-side converter demonstrator.
+
+The DC-link is interpreted as the converter-side energy-buffering layer associated with the machine-side inverter stage. This interpretation supports the Phase 2 design-basis reading of the machine-side converter without implying that the source-side / grid-side stage has been physically implemented or validated.
+
+### 4.4 Current-Level Basis
+
+The current-level basis is framed at demonstrator level in this document.
+
+It connects the 30 kW-class platform reading to subsequent machine-side converter design reasoning, while preserving the distinction between an engineering reference condition and a final product rating.
+
+At this Phase 2 stage, the current-level basis should therefore be read as a controlled design-basis assumption. It does not establish a final current rating, overload capability, validated operating range, or product-level thermal limit.
+
+### 4.5 Fixed, Representative, and Deferred Items
+
+| Category | Items | Treatment |
+| --- | --- | --- |
+| Fixed | Machine-side physical mainline; broader back-to-back system context; external DC source representation; 30 kW-class water-cooled demonstrator reading | Retained as project-level and design-basis anchors |
+| Representative | DC-side voltage basis; machine-side voltage basis; representative PMSM interface context; current-level basis | Used as design-basis references for Phase 2 reasoning and later evidence interpretation |
+| Deferred | Final component values; representative machine-side boundary definition and detailed machine-side operating assumptions; overload capability; full thermal validation; selected hardware-platform evidence and build-ownership traceability; bring-up and measured validation evidence | Deferred to later Phase 2 or Phase 3 work, depending on whether the item requires hardware-platform evidence or operational validation |
 
 ---
 
 ## 5. Deferred Topics
 
-The following topics are intentionally deferred beyond the current Phase 2 design-basis draft state:
+The following topics are intentionally deferred beyond the current design-basis draft state:
 
-- detailed quantitative power / voltage / current assumptions
-- DC-side voltage, DC-link energy buffering, controlled energisation, and protection rationale
-- representative machine-side operating assumptions
-- switching and control-frequency rationale
+- final component-level ratings and protection thresholds, including device, sensor, and connector-level closure
+- final DC-link component values and validated DC-link operating behaviour
+- validated current rating, overload capability, and complete operating-envelope closure
+- representative machine-side boundary definition and detailed machine-side operating assumptions
+- switching-frequency and control-frequency rationale
 - sensing, feedback, protection, cooling / thermal-integration, and EMI-aware design rationale
-- control-architecture and interface-boundary documentation
+- control-architecture and interface-boundary definition
 - selected hardware-platform evidence and build-ownership traceability
 - bring-up and debug evidence
 - representative measured waveform evidence
