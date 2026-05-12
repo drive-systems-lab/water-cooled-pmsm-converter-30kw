@@ -63,7 +63,19 @@ This arrangement supports machine-side physical implementation and later represe
 
 ---
 
-## 6. Rationale for the Machine-Side Focus
+## 6. Phase 2 Design-Basis Continuity
+
+The Phase 2 design-basis work uses this system-context baseline as the interpretation layer for subsequent DC-side and machine-side design reasoning.
+
+Within that design-basis layer, the DC bus interface remains the reference point between the upstream representation and the physically realised machine-side converter demonstrator. The corresponding DC input / DC bus / DC-link relationship, representative machine-side boundary, and power / voltage / current rationale are developed in [`design_basis.md`](design_basis.md) rather than redefined in this system-context document.
+
+This continuity does not change the Phase 1 system-context baseline. The external DC source remains an upstream representation for the present validation arrangement, the machine-side converter remains the only physical mainline, and the source-side / grid-side function is retained at system-context level only.
+
+Accordingly, this refinement does not introduce source-side / grid-side hardware design, source-side control design, full dual-side hardware closure, hardware-platform evidence, or measured validation claims into the present document.
+
+---
+
+## 7. Rationale for the Machine-Side Focus
 
 At the present repository stage, the project focuses on the machine-side converter demonstrator because this is where the current physical platform, implementation depth, and later representative validation evidence can be organised most coherently.
 
@@ -73,7 +85,7 @@ PC-side tools and MATLAB-based tools may later support bring-up, observability, 
 
 ---
 
-## 7. Reading Boundary at This Stage
+## 8. Reading Boundary at This Stage
 
 At this stage, the project should be read as a machine-side converter demonstrator within a broader back-to-back system context.
 
