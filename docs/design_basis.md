@@ -2,8 +2,8 @@
 
 > **Status (Phase 2 – Design-Basis Baseline in Progress):**  
 > This document establishes the Phase 2 design-basis baseline for the machine-side converter demonstrator of the 30 kW-class, water-cooled PMSM drive/converter platform.  
-> Its current scope covers design-basis role definition, design-input framing, an operating-boundary draft, initial power / voltage / current controlled assumptions, representative machine-side boundary definition, DC-side voltage-reference reasoning, current-level clarification, converter output current-capacity framing, and deferred-topic framing.  
-> Further quantitative detail where appropriate, supporting design-basis rationale, control-architecture and interface-boundary definition, selected hardware-platform evidence, and build-ownership traceability are introduced progressively through subsequent Phase 2 work.
+> Its current scope covers design-basis role definition, design-input framing, an operating-boundary draft, initial power / voltage / current controlled assumptions, representative machine-side boundary definition, DC-side voltage-reference reasoning, current-level clarification, converter output current-capacity framing, switching / control-frequency rationale, and deferred-topic framing.  
+> Further sensing, protection, cooling, and EMI-aware design rationale, additional quantitative detail where appropriate, control-architecture and interface-boundary definition, selected hardware-platform evidence, and build-ownership traceability are introduced progressively through subsequent Phase 2 work.
 
 ---
 
@@ -18,7 +18,7 @@ At this stage, the document is intended to:
 - define the role of the design-basis layer within the repository
 - frame the initial design inputs for the machine-side converter demonstrator
 - frame the operating-boundary categories at design-basis level
-- establish initial controlled assumptions for power / voltage / current and DC-side interpretation at design-basis level
+- establish initial controlled assumptions for power / voltage / current, DC-side interpretation, and switching / control timing at design-basis level
 - prepare the design-basis layer for later hardware-platform evidence and build-ownership traceability
 - preserve scope discipline as later engineering content is introduced
 
@@ -139,14 +139,28 @@ This target prevents the converter output current-capacity basis from being tied
 
 At this Phase 2 stage, these values should be read as design-basis references rather than validated operating results. The 50 A-class estimate does not establish a PMSM rated current or converter current-capacity limit, and the 100 A-class target does not establish a DC-side input current, validated current capability, product-certified current rating, or a single simultaneous 900 V / 100 A operating point.
 
-### 4.5 Fixed, Representative, Platform-Level, and Deferred Items
+### 4.5 Switching and Control-Frequency Basis
+
+The switching and control-frequency basis is introduced at design-basis level to define the representative timing layer for the machine-side converter demonstrator.
+
+A 6–8 kHz switching-frequency range is retained as an experience-informed design-basis reference for the machine-side converter demonstrator, considering the already defined 30 kW / 40 kW power boundary, 900 V nominal DC-side reference, and 100 A-class converter-output current-capacity target. These references define the design envelope for switching-rationale purposes rather than a single simultaneous operating point. Within this range, 8 kHz is used as the representative switching and current-control baseline for Phase 2 reasoning.
+
+This range is selected to balance current-control quality, current ripple, switching loss, EMI / dv/dt pressure, power-device stress, thermal design, and controller timing. It should be read as a design-basis reference rather than as a final quantitative switching-frequency closure. Such closure would require motor inductance and current-ripple targets, power-device switching-energy data, gate-drive behaviour, DC-link characteristics and layout parasitics, thermal-path evidence, controller execution margin, and EMI / dv/dt observations.
+
+The 8 kHz representative baseline gives a 125 µs PWM period. At design-basis level, this provides a practical timing basis for current-control update and PWM-synchronised current-feedback sampling.
+
+The switching and control-frequency basis also supports later sensing, protection, cooling, EMI-aware design, control-interface, and hardware-platform reasoning. For example, the switching baseline affects current-feedback timing, gate-drive behaviour, layout awareness, EMI / dv/dt interpretation, power-device switching-loss considerations, and thermal-design interpretation.
+
+At this stage, these timing references do not establish final dead-time, final ADC trigger placement, final current-loop bandwidth, final switching-loss calculation, EMI validation, thermal validation, or firmware scheduling closure. Final switching-frequency closure remains tied to later power-device, gate-drive, DC-link, layout, thermal, controller timing, and hardware-platform evidence.
+
+### 4.6 Fixed, Representative, Platform-Level, and Deferred Items
 
 | Category | Items | Treatment |
 | --- | --- | --- |
 | Fixed | Machine-side physical mainline; broader back-to-back system context; external DC source representation; 30 kW-class water-cooled demonstrator reading | Retained as project-level and design-basis anchors |
-| Representative | Representative machine-side boundary, including the 30 kW / 40 kW power references, representative high-speed point, and PMSM-side voltage / back-EMF demand; 50 A-class representative high-speed PMSM-side operating-current estimate; 900 V nominal DC-side voltage basis; representative PMSM interface | Used as representative engineering references for Phase 2 design-basis reasoning and later evidence interpretation |
+| Representative | Representative machine-side boundary, including the 30 kW / 40 kW power references, representative high-speed point, and PMSM-side voltage / back-EMF demand; 50 A-class representative high-speed PMSM-side operating-current estimate; 900 V nominal DC-side voltage basis; 6–8 kHz switching-frequency design-basis range; 8 kHz representative switching / current-control baseline, with its derived 125 µs PWM period and PWM-synchronised current-feedback sampling assumption; representative PMSM interface | Used as representative engineering references for Phase 2 design-basis reasoning and later evidence interpretation |
 | Platform-level | 100 A-class converter output current-capacity target | Used as an implementation-facing platform-level target for later current-path, sensing, protection, cooling, wiring, terminal interface, and hardware-platform reasoning; not treated as a PMSM rated current, DC-side input current, product-certified current rating, validated current capability, or simultaneous 900 V / 100 A operating point |
-| Deferred | Final component values; detailed machine-side operating assumptions beyond the representative boundary defined in this document; final current rating; validated current or overload capability; full thermal validation; selected hardware-platform evidence and build-ownership traceability; bring-up and measured validation evidence | Deferred to later Phase 2 or subsequent project work, depending on whether the item requires supporting rationale, hardware-platform evidence, or operational validation artefacts |
+| Deferred | Final component values; detailed machine-side operating assumptions beyond the representative boundary defined in this document; final current rating; validated current or overload capability; final switching-frequency closure; final dead-time; final ADC trigger placement; final current-loop bandwidth; final switching-loss calculation; EMI validation; firmware scheduling closure; full thermal validation; selected hardware-platform evidence and build-ownership traceability; bring-up and measured validation evidence | Deferred to later Phase 2 or subsequent project work, depending on whether the item requires supporting rationale, hardware-platform evidence, control-interface definition, or operational validation artefacts |
 
 ---
 
@@ -182,7 +196,7 @@ The following topics are intentionally deferred beyond the current design-basis 
 - final DC-link component values, full DC-side operating range, and validated DC-link operating behaviour
 - final current rating, validated current or overload capability, and complete operating-envelope closure
 - detailed machine-side operating assumptions beyond the representative boundary defined in this document
-- switching-frequency and control-frequency rationale
+- final switching-frequency closure, final dead-time, final ADC trigger placement, final current-loop bandwidth, final switching-loss calculation, EMI validation, thermal validation, and firmware scheduling closure
 - sensing, feedback, protection, cooling / thermal-integration, and EMI-aware design rationale
 - control-architecture and interface-boundary definition
 - selected hardware-platform evidence and build-ownership traceability
@@ -192,4 +206,4 @@ The following topics are intentionally deferred beyond the current design-basis 
 - PC-side runtime observability evidence
 - MATLAB-based analysis and tuning-support evidence
 
-These topics are introduced progressively as substantive engineering content becomes available during later Phase 2 work and subsequent Phase 3 work.
+These topics are introduced, refined, or kept explicitly deferred as substantive design rationale, hardware-platform evidence, or operational validation artefacts become available during later Phase 2 work and subsequent project phases.
