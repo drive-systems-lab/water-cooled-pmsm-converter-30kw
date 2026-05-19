@@ -2,8 +2,8 @@
 
 > **Status (Phase 2 – Design-Basis Baseline in Progress):**  
 > This document establishes the Phase 2 design-basis baseline for the machine-side converter demonstrator of the 30 kW-class, water-cooled PMSM drive/converter platform.  
-> Its current scope covers design-basis role definition, design-input framing, an operating-boundary draft, initial power / voltage / current controlled assumptions, representative machine-side boundary definition, DC-side voltage-reference reasoning, current-level clarification, converter output current-capacity framing, switching / control-frequency rationale, and deferred-topic framing.  
-> Further sensing, protection, cooling, and EMI-aware design rationale, additional quantitative detail where appropriate, control-architecture and interface-boundary definition, selected hardware-platform evidence, and build-ownership traceability are introduced progressively through subsequent Phase 2 work.
+> Its current scope covers design-basis role definition, design-input framing, an operating-boundary draft, initial power / voltage / current controlled assumptions, representative machine-side boundary definition, DC-side voltage-reference reasoning, current-level clarification, converter output current-capacity framing, switching / control-frequency rationale, sensing / protection / cooling / EMI-aware rationale, and deferred-topic framing.  
+> Additional quantitative detail where appropriate, control-architecture and interface-boundary definition, selected hardware-platform evidence, and build-ownership traceability are introduced progressively through subsequent Phase 2 work.
 
 ---
 
@@ -18,7 +18,7 @@ At this stage, the document is intended to:
 - define the role of the design-basis layer within the repository
 - frame the initial design inputs for the machine-side converter demonstrator
 - frame the operating-boundary categories at design-basis level
-- establish initial controlled assumptions for power / voltage / current, DC-side interpretation, and switching / control timing at design-basis level
+- establish initial controlled assumptions and supporting rationale at design-basis level across power / voltage / current, DC-side interpretation, switching / control timing, and sensing / protection / cooling / EMI-aware design
 - prepare the design-basis layer for later hardware-platform evidence and build-ownership traceability
 - preserve scope discipline as later engineering content is introduced
 
@@ -153,14 +153,95 @@ The switching and control-frequency basis also supports later sensing, protectio
 
 At this stage, these timing references do not establish final dead-time, final ADC trigger placement, final current-loop bandwidth, final switching-loss calculation, EMI validation, thermal validation, or firmware scheduling closure. Final switching-frequency closure remains tied to later power-device, gate-drive, DC-link, layout, thermal, controller timing, and hardware-platform evidence.
 
-### 4.6 Fixed, Representative, Platform-Level, and Deferred Items
+### 4.6 Sensing, Protection, Cooling, and EMI-Aware Rationale
+
+The sensing, protection, cooling, and EMI-aware design rationale is introduced here at design-basis level.
+
+This section translates the previously defined power, voltage, current, and switching references into implementation-facing design considerations for the machine-side converter demonstrator. It forms the design-to-implementation bridge between the design-basis references defined in this document and the selected hardware-platform evidence to be introduced later in Phase 2. It does not establish final component qualification, final protection thresholds, full thermal validation, certified EMC performance, selected hardware-platform evidence, or build-ownership traceability.
+
+| Rationale area | Design-basis reading | Basis used | Deferred closure |
+| --- | --- | --- | --- |
+| Phase-current sensing | Machine-side phase-current sensing is treated as the primary current-feedback basis for converter output current supervision and later representative machine-side validation | 100 A-class converter output current-capacity target; 50 A-class representative high-speed PMSM-side operating-current estimate; 8 kHz representative current-control baseline | Final sensor qualification, calibration evidence, bandwidth verification, accuracy closure, and complete ADC-channel mapping |
+| DC-bus voltage sensing | DC-bus voltage sensing is treated as a local converter-side DC-link measurement basis used for voltage monitoring, startup supervision, and software-level overvoltage / undervoltage protection | 900 V nominal DC-side design-basis reference; DC input / DC bus / DC-link relationship; local converter-side DC-link measurement basis | Final voltage-scaling disclosure, exact thresholds, hardware overvoltage-trip claim, or upstream source-side validation |
+| Protection — operating-envelope supervision | Software-supervised protection is organised around measured phase-current supervision, local DC-link voltage supervision, temperature-related supervision, enable / interlock checks, and plausibility checks | Phase-current sensing basis; local DC-link voltage-sensing basis; thermal-supervision basis; 100 A-class current-capacity target; 900 V nominal DC-side reference; 30 kW / 40 kW power boundary | Final warning / inhibit / trip thresholds, protection-response timing, validated software-commanded shutdown implementation, or product-level protection validation |
+| Protection — driver-level hard-fault handling | Severe gate-driver fault indications are treated as a driver-level hard-fault path that can force inverter PWM outputs into a defined safe state | Driver-level FAULT / DESAT path; PWM trip-safe-state principle; gate-drive / power-stage interface boundary | Exact trip configuration, measured shutdown timing, fault-source mapping, short-circuit qualification, or certified functional-safety closure |
+| Thermal monitoring and cooling | Thermal supervision and water cooling are treated as part of the demonstrator-level thermal design basis for the 30 kW-class platform and short-duration overload context | 30 kW continuous power reference; 40 kW short-duration overload reference; 100 A-class current-capacity target; IGBT-module internal NTC feedback; motor-side temperature-interface basis; water-cooled platform approach | Final coolant flow, thermal-resistance calculation, thermal-rise validation, direct junction-temperature measurement claim, or product cooling qualification |
+| EMI-aware integration | EMI-aware design is treated as layout, wiring, grounding, shielding, isolation, gate-drive, and interface-awareness reasoning for a high-voltage, high-current switching converter | 900 V nominal DC-side reference; 100 A-class current-capacity target; 6–8 kHz switching-frequency range; local DC-link support; gate-drive proximity; isolated sensing / communication paths; shield-ground and chassis-awareness basis | Certified EMC result, final EMI filter design, measured loop inductance, formal grounding / shielding verification, or compliance-level testing |
+
+#### 4.6.1 Phase-Current Sensing Strategy
+
+The current-sensing basis is centred on the machine-side converter output phase currents.
+
+At design-basis level, the current-feedback basis is defined around three machine-side phase-current sensing channels. These channels are interpreted as converter output phase-current measurements, while DC-link current measurement remains outside the current sensing basis defined in this document.
+
+The phase-current sensing capacity is interpreted against the 100 A-class converter output current-capacity target, rather than only against the 50 A-class representative high-speed PMSM-side operating-current estimate. This preserves the distinction between a representative operating-current estimate and the implementation-facing current-capacity envelope.
+
+The sensing chain is treated as a bidirectional analogue Hall-effect phase-current measurement path suitable for machine-side current feedback, current supervision, controller observability, and later representative validation interpretation. ADC range, zero-current offset, filtering, calibration consistency, and current-to-voltage gain confirmation remain part of later control-interface, hardware-platform, and bring-up work.
+
+This sensing rationale defines the current-feedback basis for the demonstrator, without establishing product-level metrology qualification, certified isolation performance, final sensor calibration, or validated 100 A operation.
+
+#### 4.6.2 DC-Bus Voltage Sensing Strategy
+
+The DC-bus voltage sensing basis is centred on the local converter-side DC-link voltage.
+
+At design-basis level, the voltage-supervision basis is defined around local converter-side DC-link measurement and is interpreted relative to the 900 V nominal DC-side design-basis reference. This measurement basis supports startup supervision, DC-bus voltage monitoring, overvoltage / undervoltage supervision, PWM-enable condition checking, and later DC-link evidence interpretation.
+
+The voltage-sensing path is treated as a distributed high-voltage resistor-divider followed by local serial ADC conversion and digitally isolated signal transfer to the DSP-side control domain. Within the present demonstrator boundary, this path provides converter-side voltage monitoring and software-supervised voltage protection context, while the complete upstream source-side / grid-side stage remains outside the present physical validation scope.
+
+Exact divider values, software scaling coefficients, ADC count mapping, overvoltage / undervoltage thresholds, and PCB-level implementation details remain outside the public design-basis scope unless they are later deliberately introduced with supporting evidence.
+
+This voltage-sensing rationale defines the DC-link voltage-supervision basis for the demonstrator, without establishing a hardware overvoltage trip path, product-level voltage protection qualification, certified isolation performance, or full DC-side operating-range validation.
+
+#### 4.6.3 Demonstrator-Level Protection Strategy
+
+The protection basis is centred on demonstrator-level fault handling, operating-envelope supervision, and PWM-enable conditions for the machine-side converter.
+
+At design-basis level, it defines how severe driver faults, measured-current / voltage / temperature supervision, and enable-condition checks support controlled operation and safe-state reasoning. It is not presented as certified product-level functional safety.
+
+The protection basis is organised around three layers.
+
+First, driver-level hard-fault handling supports rapid shutdown under severe switching-device fault conditions. Driver DESAT / FAULT-type indications are treated as severe gate-driver-level hard-fault signals that can trigger a PWM trip path and force inverter PWM outputs into a defined safe state.
+
+Second, software-supervised operating-envelope protection monitors phase current, DC-bus voltage, and temperature-related conditions. This layer supports current limiting, overcurrent handling, DC-bus overvoltage / undervoltage supervision, startup / precharge readiness checks, and overtemperature supervision.
+
+Third, enable interlocks and plausibility checks are used to prevent PWM enable when essential measurement, feedback, communication, or external-enable conditions are not valid.
+
+Severe protective faults should be treated as latched events requiring manual acknowledgement and controlled reinitialisation before re-enable. Conditions such as startup-not-ready, precharge-incomplete, sensor-offset-pending, or warning-level states may inhibit PWM enable or raise a warning without being classified as severe latched faults. Their final latch, reset, and recovery behaviour remains part of later control-interface and bring-up definition.
+
+Exact trip thresholds, response timing, trip configuration, reset sequence, and measured shutdown performance remain deferred. This section does not claim certified functional safety, complete short-circuit qualification, or product-level protection-chain validation.
+
+#### 4.6.4 Thermal Monitoring and Cooling Rationale
+
+The thermal and cooling basis is centred on power-module temperature supervision and the power-stage heat-removal path for the water-cooled machine-side converter demonstrator.
+
+At design-basis level, converter-side thermal supervision is organised around IGBT-module internal NTC feedback. This feedback is treated as power-module temperature feedback routed into the converter-side thermal-supervision path, rather than as direct semiconductor junction-temperature measurement. Motor-side temperature input is retained as a machine-side thermal-monitoring interface provision, while its use in later PMSM bring-up remains dependent on the selected machine setup and available interface evidence.
+
+Temperature handling should be organised at design-basis level into warning, inhibit, and trip concepts. Warning-level conditions support observability and early thermal awareness. Inhibit-level conditions prevent startup when thermal conditions are outside the allowed range. Trip-level conditions disable PWM during operation and should be latched if the fault is severe.
+
+The cooling rationale is centred on the power-stage heat-removal path. The power-stage thermal path is defined around IGBT module baseplates thermally coupled to an integrated water-cooled cold-plate / enclosure-base structure. The intended heat-flow path is from the module baseplates, through the thermal interface and cold-plate body, into the coolant loop.
+
+This supports the 30 kW-class / short-duration overload design-basis rationale and explains why water cooling is part of the demonstrator-level platform basis.
+
+The boundary remains demonstrator-level. This section does not claim that all converter components are directly water-cooled, nor does it establish coolant flow rate, coolant temperature, thermal resistance, thermal-rise validation, direct junction-temperature measurement, or product-level thermal qualification.
+
+#### 4.6.5 EMI-Aware Layout and Integration Considerations
+
+The EMI-aware layout and integration basis is introduced at design-basis level because the demonstrator combines a 900 V nominal DC-side reference, a 100 A-class converter output current-capacity target, and a 6–8 kHz switching-frequency design-basis range.
+
+At this stage, EMI-aware reasoning is based on layout and integration awareness rather than formal EMC testing or compliance evidence. The relevant considerations include separation between high-voltage power interfaces and low-voltage signal interfaces, compact DC-link and power-stage current-path organisation, local gate-drive placement close to the power stage, isolated sensing and communication paths, shield-ground provisions for selected feedback and communication interfaces, and chassis / enclosure-level grounding awareness.
+
+The design-to-implementation route should therefore be organised around a structured control-drive-power arrangement rather than an unpartitioned mixed layout. Later hardware-platform evidence should be prepared to show power/control separation, DC-link support, gate-drive proximity, signal-interface isolation, shield-aware interface provision, grounding awareness, and wiring organisation where these features can be clearly evidenced.
+
+This rationale remains at design-basis level. It does not establish measured EMI performance, certified EMC compliance, fully verified grounding design, final filter design, measured loop inductance, exact shield-termination strategy, or formal product-level isolation verification.
+
+### 4.7 Fixed, Representative, Platform-Level, and Deferred Items
 
 | Category | Items | Treatment |
 | --- | --- | --- |
 | Fixed | Machine-side physical mainline; broader back-to-back system context; external DC source representation; 30 kW-class water-cooled demonstrator reading | Retained as project-level and design-basis anchors |
 | Representative | Representative machine-side boundary, including the 30 kW / 40 kW power references, representative high-speed point, and PMSM-side voltage / back-EMF demand; 50 A-class representative high-speed PMSM-side operating-current estimate; 900 V nominal DC-side voltage basis; 6–8 kHz switching-frequency design-basis range; 8 kHz representative switching / current-control baseline, with its derived 125 µs PWM period and PWM-synchronised current-feedback sampling assumption; representative PMSM interface | Used as representative engineering references for Phase 2 design-basis reasoning and later evidence interpretation |
 | Platform-level | 100 A-class converter output current-capacity target | Used as an implementation-facing platform-level target for later current-path, sensing, protection, cooling, wiring, terminal interface, and hardware-platform reasoning; not treated as a PMSM rated current, DC-side input current, product-certified current rating, validated current capability, or simultaneous 900 V / 100 A operating point |
-| Deferred | Final component values; detailed machine-side operating assumptions beyond the representative boundary defined in this document; final current rating; validated current or overload capability; final switching-frequency closure; final dead-time; final ADC trigger placement; final current-loop bandwidth; final switching-loss calculation; EMI validation; firmware scheduling closure; full thermal validation; selected hardware-platform evidence and build-ownership traceability; bring-up and measured validation evidence | Deferred to later Phase 2 or subsequent project work, depending on whether the item requires supporting rationale, hardware-platform evidence, control-interface definition, or operational validation artefacts |
+| Deferred | Final component values and implementation parameters; detailed machine-side operating assumptions beyond the representative boundary defined in this document; final current rating, validated current / overload capability, and complete operating-envelope closure; final sensor calibration / qualification and voltage-sensing scaling disclosure; exact protection thresholds, PWM trip configuration, reset / recovery behaviour, and measured shutdown timing; final cooling, thermal, EMI / EMC, grounding / shielding, and switching-frequency closure; control-architecture and interface-boundary definition; selected hardware-platform evidence, build-ownership traceability, bring-up, and measured validation evidence | Deferred to later Phase 2 or subsequent project work, depending on whether the item requires control-interface definition, hardware-platform evidence, or operational validation artefacts |
 
 ---
 
@@ -190,14 +271,17 @@ The shaft-side context remains a downstream operating boundary for interpreting 
 
 ## 6. Deferred Topics
 
-The following topics are intentionally deferred beyond the current design-basis draft state:
+The following topics remain intentionally deferred beyond the current design-basis-level rationale presented in this document:
 
-- final component-level ratings and protection thresholds, including device, sensor, and connector-level closure
+- final component-level ratings, detailed component values, and implementation parameters, including device, sensor, connector, and protection-path closure
 - final DC-link component values, full DC-side operating range, and validated DC-link operating behaviour
 - final current rating, validated current or overload capability, and complete operating-envelope closure
 - detailed machine-side operating assumptions beyond the representative boundary defined in this document
-- final switching-frequency closure, final dead-time, final ADC trigger placement, final current-loop bandwidth, final switching-loss calculation, EMI validation, thermal validation, and firmware scheduling closure
-- sensing, feedback, protection, cooling / thermal-integration, and EMI-aware design rationale
+- final switching-frequency closure, final dead-time, final ADC trigger placement, final current-loop bandwidth, final switching-loss calculation, and firmware scheduling closure
+- final sensing-chain closure, including current-sensor range, calibration, bandwidth / accuracy verification, voltage-sensing scaling disclosure, exact voltage thresholds, and complete ADC / interface mapping
+- exact protection thresholds, PWM trip configuration, reset / recovery behaviour, and measured shutdown timing
+- final cooling / thermal closure, including coolant flow, coolant temperature, thermal resistance, thermal-rise behaviour, junction-temperature estimation methodology, and full thermal validation
+- final EMI / EMC and grounding / shielding closure, including final filter design, measured loop inductance, exact shield-termination strategy, formal grounding / shielding verification, and compliance-level testing
 - control-architecture and interface-boundary definition
 - selected hardware-platform evidence and build-ownership traceability
 - bring-up and debug evidence
@@ -206,4 +290,4 @@ The following topics are intentionally deferred beyond the current design-basis 
 - PC-side runtime observability evidence
 - MATLAB-based analysis and tuning-support evidence
 
-These topics are introduced, refined, or kept explicitly deferred as substantive design rationale, hardware-platform evidence, or operational validation artefacts become available during later Phase 2 work and subsequent project phases.
+These topics are introduced, refined, or kept explicitly deferred as relevant control-interface definitions, hardware-platform evidence, implementation-level details, or operational validation artefacts become available during later Phase 2 work and subsequent project phases.
